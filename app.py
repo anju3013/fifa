@@ -41,7 +41,7 @@ def prediction_GK():
 @app.route('/input_FW',methods=['GET','POST'])
 def inputfw():
    if request.method=='GET':
-           
+                 
       return render_template('input_FW.html')
 @app.route('/prediction', methods=['GET','POST'])
 def prediction_FW():
@@ -66,15 +66,16 @@ def prediction_FW():
       mentality_composure=request.form['mentality_composure']
       shooting=request.form['shooting']
       passing=request.form['passing']
-      
       dribbling=request.form['dribbling']
 
       model=pickle.load(open('model_FW.pkl','rb'))
 
       rating=model.predict([[1.0,5,4,4,6,3,91,88,96,94,86,94,93,96,92.0,91.0,95.0]])
       print(rating)
-      rating=model.predict([[float(league_rank),int(international_reputation),int(weak_foot),int(skill_moves),int(body_type),int(work_rate),int(attacking_short_passing),int(attacking_volleys),
-                             int(skill_ball_control),int(movement_reactions),int(power_shot_power),int(power_long_shots),
+      rating=model.predict([[float(league_rank),int(international_reputation),int(weak_foot),
+      int(skill_moves),int(body_type),int(work_rate),int(attacking_short_passing),
+      int(attacking_volleys),
+      int(skill_ball_control),int(movement_reactions),int(power_shot_power),int(power_long_shots),
                              int(mentality_positioning),int(mentality_composure),float(shooting),
                              float(passing),float(dribbling)]])
       
@@ -134,13 +135,17 @@ def inputmid():
       return render_template('input_MID.html')
 @app.route('/prediction',methods=['GET','POST'])
 def prediction_MID():
-    if request.method=='POST':
+    if request.method =='POST':
       with open("model_MID.pkl","rb") as model_file:
         model=pickle.load(model_file)
-      with open("le_MID.pkl","rb") as f:
-        le_mid=pickle.load(f)
+      with open("body_type_mid.pkl","rb") as f:
+         body_type_mid=pickle.load(f)
+      with open("work_rate_mid.pkl","rb") as g:
+         work_rate_mid=pickle.load(g)
+      with open("preferred_foot_mid.pkl","rb") as h:
+         preferred_foot_mid=pickle.load(h)
+         
       league_rank=request.form['league_rank']
-      print(league_rank)
       international_reputation=request.form['international_reputation']
       weak_foot=request.form['weak_foot']
       skill_moves=request.form['skill_moves']
@@ -155,27 +160,30 @@ def prediction_MID():
       movement_reactions=request.form['movement_reactions']
       
       power_long_shots=request.form['power_long_shots']
-      
+      print(power_long_shots)
       mentality_composure=request.form['mentality_composure']
       shooting=request.form['shooting']
       passing=request.form['passing']
       
       dribbling=request.form['dribbling']
+      print(dribbling)
       s=[[float(league_rank),int(international_reputation),int(weak_foot),
-                             int(skill_moves),(work_rate),(body_type),int(preferred_foot),
+                             int(skill_moves),work_rate,body_type,preferred_foot,
                              int(attacking_short_passing),int(skill_dribbling),int(skill_long_passing),
                              int(skill_ball_control),int(movement_reactions),int(power_long_shots),
                              int(mentality_composure),float(shooting),
                              float(passing),float(dribbling)]]
+      s=pd.DataFrame(s)
+      print(s)
       work_rate_mid=pickle.load(open('work_rate_mid.pkl','rb'))
       s[4]=work_rate_mid.transform(s[4])
       body_type_mid=pickle.load(open('body_type_mid.pkl','rb'))
       s[5]=body_type_mid.transform(s[5])
+      preferred_foot_mid=pickle.load(open('preferred_foot_mid.pkl','rb'))
+      s[6]=preferred_foot_mid.transform(s[6])
          
       model=pickle.load(open('model_MID.pkl','rb'))
 
-      rating=model.predict([[1.0,3,3,2,0,2,1,84,69,84,79,87,81,84,73.0,76.0,72.0]])
-      print(rating)
       rating=model.predict(s)
       
       print(rating)
