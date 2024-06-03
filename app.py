@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request
 import pickle
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
 app=Flask(__name__)
 
@@ -153,16 +154,14 @@ def prediction_MID():
       
       work_rate=request.form['work_rate']
       print(work_rate)
-      work_rate_mid=pickle.load(open('work_rate_mid.pkl','rb'))
-      work_rate_en=work_rate_mid.transform(work_rate)
+      
       
       body_type=request.form['body_type']
-      body_type_mid=pickle.load(open('body_type_mid.pkl','rb'))
-      body_type_en=body_type_mid.transform(body_type)
+      
       
       preferred_foot=request.form['preferred_foot']
-      preferred_foot_mid=pickle.load(open('preferred_foot_mid.pkl','rb'))
-      preferred_foot_en=preferred_foot_mid.transform(preferred_foot)
+      
+      
 
       attacking_short_passing=request.form['attacking_short_passing']
       skill_dribbling=request.form['skill_dribbling']
@@ -181,16 +180,25 @@ def prediction_MID():
       print(dribbling)
       
       s=[[float(league_rank),int(international_reputation),int(weak_foot),
-                             int(skill_moves),int(work_rate_en),int(body_type_en),int(preferred_foot_en),
+                             int(skill_moves),work_rate,body_type,preferred_foot,
                              int(attacking_short_passing),int(skill_dribbling),int(skill_long_passing),
                              int(skill_ball_control),int(movement_reactions),int(power_long_shots),
                              int(mentality_composure),float(shooting),
                              float(passing),float(dribbling)]]
       s=pd.DataFrame(s)
+      
+      work_rate_en=pickle.load(open('work_rate_mid.pkl','rb'))
+      body_type_en=pickle.load(open('body_type_mid.pkl','rb'))
+      preferred_foot_en=pickle.load(open('preferred_foot_mid.pkl','rb'))
+      
+      s[4]=work_rate_en.transform(s[4])
+      s[5]=body_type_en.transform(s[5])
+      s[6]=preferred_foot_en.transform(s[6])
+
          
       model=pickle.load(open('model_MID.pkl','rb'))
 
-      rating=model.predict(s)
+      rating=model.predict(s.values)
       
       print(rating)
     return render_template('prediction_MID.html',rating=rating)   
