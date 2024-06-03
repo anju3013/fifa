@@ -43,7 +43,8 @@ def inputfw():
    if request.method=='GET':
                  
       return render_template('input_FW.html')
-@app.route('/prediction', methods=['GET','POST'])
+   
+@app.route('/prediction',methods=['GET','POST'])
 def prediction_FW():
     if request.method=='POST':
       with open("model_FW.pkl","rb") as model_file:
@@ -194,4 +195,4 @@ def prediction_MID():
  
 
 if __name__=='__main__':
-  app.run()
+  app.run(debug=True)
