@@ -43,7 +43,7 @@ def inputfw():
    if request.method=='GET':
            
       return render_template('input_FW.html')
-@app.route('/prediction_FW',methods=['GET','POST'])
+@app.route('/prediction', methods=['GET','POST'])
 def prediction_FW():
     if request.method=='POST':
       with open("model_FW.pkl","rb") as model_file:
@@ -79,7 +79,7 @@ def prediction_FW():
                              float(passing),float(dribbling)]])
       
       print(rating)
-    return render_template('prediction_FW.html',rating=rating)
+    return render_template('prediction.html',rating=rating)
 
 
 
@@ -90,7 +90,7 @@ def inputdef():
     return render_template('input_DEF.html')
 
 
-@app.route('/prediction_DEF',methods=['GET','POST'])
+@app.route('/prediction',methods=['GET','POST'])
 def prediction_DEF():
     if request.method=='POST':
       with open("model_DEF.pkl","rb") as model_file:
@@ -123,7 +123,7 @@ def prediction_DEF():
                              int(mentality_composure),int(defending_sliding_tackle),float(passing),float(defending),
                              float(physic),float(dribbling)]])
       print(rating)
-    return render_template('prediction_DEF.html',rating=rating)
+    return render_template('prediction.html',rating=rating)
 
 
 
