@@ -177,7 +177,7 @@ def prediction_MID():
       print(s)
       work_rate_encoder=pickle.load(open('work_rate.pkl','rb'))
 
-      s[4]=work_rate_encoder.transform([work_rate])
+      s[4]=work_rate_encoder.transform(s[4])
 
       s[4]
 

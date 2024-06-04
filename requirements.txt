@@ -2,3 +2,5 @@ flask
 scikit_learn
 gunicorn
 pandas
+xgboost
+pickle
