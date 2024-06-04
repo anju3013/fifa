@@ -175,14 +175,25 @@ def prediction_MID():
                              float(passing),float(dribbling)]]
       s=pd.DataFrame(s)
       print(s)
-      work_rate_en=pickle.load(open('work_rate_mid.pkl','rb'))
-      body_type_en=pickle.load(open('body_type_mid.pkl','rb'))
-      preferred_foot_en=pickle.load(open('preferred_foot_mid.pkl','rb'))
-      
-      s[4]=work_rate_en.transform([work_rate])
-      s[5]=body_type_en.transform([body_type])
-      s[6]=preferred_foot_en.transform([preferred_foot])
+      work_rate_encoder=pickle.load(open('work_rate.pkl','rb'))
 
+      s[4]=work_rate_encoder.transform(['High/Medium'])
+
+      s[4]
+
+
+
+      body_type_encoder=pickle.load(open('body_type.pkl','rb'))
+
+      s[5]=body_type_encoder.transform(s[5])
+
+      s[5]
+
+      preferred_foot_encoder=pickle.load(open('preferred_foot_mid.pkl','rb'))
+
+      s[6]=preferred_foot_encoder.transform(s[6])
+
+      s[5]
       
       model=pickle.load(open('model_MID.pkl','rb'))
 
