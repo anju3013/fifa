@@ -149,33 +149,21 @@ def prediction_MID():
       league_rank=request.form['league_rank']
       international_reputation=request.form['international_reputation']
       weak_foot=request.form['weak_foot']
-      
       skill_moves=request.form['skill_moves']
-      
       work_rate=request.form['work_rate']
       print(work_rate)
-      
-      
       body_type=request.form['body_type']
-      
-      
       preferred_foot=request.form['preferred_foot']
-      
-      
-
       attacking_short_passing=request.form['attacking_short_passing']
       skill_dribbling=request.form['skill_dribbling']
       skill_long_passing=request.form['skill_long_passing']
       skill_ball_control=request.form['skill_ball_control']
-      
       movement_reactions=request.form['movement_reactions']
-      
       power_long_shots=request.form['power_long_shots']
       print(power_long_shots)
       mentality_composure=request.form['mentality_composure']
       shooting=request.form['shooting']
       passing=request.form['passing']
-      
       dribbling=request.form['dribbling']
       print(dribbling)
       
@@ -186,16 +174,16 @@ def prediction_MID():
                              int(mentality_composure),float(shooting),
                              float(passing),float(dribbling)]]
       s=pd.DataFrame(s)
-      
+      print(s)
       work_rate_en=pickle.load(open('work_rate_mid.pkl','rb'))
       body_type_en=pickle.load(open('body_type_mid.pkl','rb'))
       preferred_foot_en=pickle.load(open('preferred_foot_mid.pkl','rb'))
       
-      s[4]=work_rate_en.transform(s[4])
-      s[5]=body_type_en.transform(s[5])
-      s[6]=preferred_foot_en.transform(s[6])
+      s[4]=work_rate_en.transform([work_rate])
+      s[5]=body_type_en.transform([body_type])
+      s[6]=preferred_foot_en.transform([preferred_foot])
 
-         
+      
       model=pickle.load(open('model_MID.pkl','rb'))
 
       rating=model.predict(s.values)
