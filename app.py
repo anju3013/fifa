@@ -167,17 +167,17 @@ def prediction_MID():
       dribbling=request.form['dribbling']
       print(dribbling)
       
-      s=[[float(league_rank),int(international_reputation),int(weak_foot),
+      s=[float(league_rank),int(international_reputation),int(weak_foot),
                              int(skill_moves),work_rate,body_type,preferred_foot,
                              int(attacking_short_passing),int(skill_dribbling),int(skill_long_passing),
                              int(skill_ball_control),int(movement_reactions),int(power_long_shots),
                              int(mentality_composure),float(shooting),
-                             float(passing),float(dribbling)]]
+                             float(passing),float(dribbling)]
       s=pd.DataFrame(s)
       print(s)
       work_rate_encoder=pickle.load(open('work_rate.pkl','rb'))
 
-      s[4]=work_rate_encoder.transform(['High/Medium'])
+      s[4]=work_rate_encoder.transform([work_rate])
 
       s[4]
 
@@ -193,7 +193,7 @@ def prediction_MID():
 
       s[6]=preferred_foot_encoder.transform(s[6])
 
-      s[5]
+      s[6]
       
       model=pickle.load(open('model_MID.pkl','rb'))
 
